@@ -1,4 +1,4 @@
-package com.malik.examplanningsystem.controller;
+package com.malik.examplanningsystem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
