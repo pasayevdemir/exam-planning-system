@@ -147,7 +147,7 @@ public class ExamPlanningService {
                 .filter(i -> !invigilatorAssignmentRepository.existsByExamAndInstructor(exam, i))
                 .filter(i -> !invigilatorAssignmentRepository.existsByInstructorAndExam_ExamDateAndExam_ExamTime(
                         i, exam.getExamDate(), exam.getExamTime()))
-                .collect(Collectors.toList());
+                .toList();
 
         if (candidates.size() < count) {
             throw new InsufficientCapacityException(
