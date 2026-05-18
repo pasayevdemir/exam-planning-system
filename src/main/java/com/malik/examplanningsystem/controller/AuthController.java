@@ -7,10 +7,15 @@ import com.malik.examplanningsystem.entity.User;
 import com.malik.examplanningsystem.security.CustomUserDetailsService;
 import com.malik.examplanningsystem.security.JwtService;
 import com.malik.examplanningsystem.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Register and login to obtain JWT tokens")
 public class AuthController {
 
     private final UserService userService;
@@ -40,6 +46,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @Operation(summary = "Register a new user", description = "Creates a new user account and returns a JWT token")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User registered successfully",
+                    content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Validation failed or username already taken",
+                    content = @Content),
+            @ApiResponse(responseCode = "409", description = "Username already exists",
+                    content = @Content)
+    })
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest registerRequest){
         User user = new User();
         user.setUsername(registerRequest.getUsername());
@@ -62,6 +77,15 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Login with credentials", description = "Authenticates a user and returns a JWT token valid for 24 hours")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login successful",
+                    content = @Content(schema = @Schema(implementation = AuthResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request body",
+                    content = @Content),
+            @ApiResponse(responseCode = "401", description = "Invalid username or password",
+                    content = @Content)
+    })
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequest.getUsername(),
