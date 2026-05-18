@@ -15,7 +15,10 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/admin/users")
+@Tag(name = "Users", description = "Manage system users and their roles")
+@SecurityRequirement(name = "Bearer Authentication")
 public class UserController {
+
     private final UserService userService;
 
     @PostMapping
@@ -40,6 +43,12 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a user")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
