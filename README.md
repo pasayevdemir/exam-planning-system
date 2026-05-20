@@ -80,7 +80,7 @@ A full-stack web application for automating university exam scheduling — stude
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/maliksalimov/exam-planning-system.git
+git clone https://github.com/pasayevdemir/exam-planning-system.git
 cd exam-planning-system
 ```
 
@@ -203,7 +203,7 @@ See [`docs/EXAM_PLANNING_API.md`](docs/EXAM_PLANNING_API.md) for a detailed guid
 
 ```
 exam-planning-system/
-├── src/main/java/com/malik/examplanningsystem/
+├── src/main/java/com/damir/examplanningsystem/
 │   ├── config/          # Security, JWT filter & service
 │   ├── controller/      # REST controllers (one per entity)
 │   ├── dto/             # Request / response DTOs
@@ -238,10 +238,4 @@ exam-planning-system/
 
 For large changes, open an issue first to discuss the approach.
 
----
-
-## Maintainer
-
-**Malik Salimov** — [@maliksalimov](https://github.com/maliksalimov)
-
-For questions or bug reports, open an issue on GitHub.
+.
